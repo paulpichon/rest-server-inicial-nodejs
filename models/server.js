@@ -12,8 +12,6 @@ class Server {
         //puerto
         //en caso de no estar definido PORT entonces usar el puerto 3000
         this.port = process.env.PORT || 3000;
-        //cors
-        this.app.use(cors());
         //ruta principal de la API
         this.usuariosPath = '/api/usuarios';
 
@@ -25,6 +23,10 @@ class Server {
     }
     //middlewares
     middlewares() {
+        //cors
+        this.app.use(cors());
+        //lectura y parsear del body
+        this.app.use( express.json() );
         //Archivo público
         this.app.use( express.static('public') );
     }

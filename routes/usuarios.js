@@ -1,34 +1,20 @@
 //usuarios
 //configuracion de Router de Express
 const { Router } = require('express');
+//importar constantes
+const { usuariosGet, usuariosPost, usuariosPut, usuariosDelete } = require('../controllers/usuarios');
 //creamos constante router para asignarle la funcion Router de express
 const router = Router();
 
 //RUTAS
 //GET
-router.get('/', (req, res) => {
-    res.json({
-        msg: 'GET API'
-    });
-});
+router.get('/', usuariosGet);
 //POST
-router.post('/', (req, res) => {
-    res.json({
-        msg: 'POST API'
-    });
-});
+router.post('/', usuariosPost);
 //PUT
-router.put('/', (req, res) => {
-    res.json({
-        msg: 'PUT API'
-    });
-});
+router.put('/', usuariosPut);
 //DELETE
-router.delete('/', (req, res) => {
-    res.json({
-        msg: 'DELETE API'
-    });
-});
+router.delete('/', usuariosDelete);
 
 //exportamos por default router
 module.exports = router;
