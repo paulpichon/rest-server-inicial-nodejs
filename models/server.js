@@ -14,6 +14,8 @@ class Server {
         this.port = process.env.PORT || 3000;
         //cors
         this.app.use(cors());
+        //ruta principal de la API
+        this.usuariosPath = '/api/usuarios';
 
 
         //middlewares
@@ -31,30 +33,8 @@ class Server {
     
     //rutas
     routes() {
-        //GET
-        this.app.get('/api', (req, res) => {
-            res.json({
-                msg: 'GET API'
-            });
-        });
-        //POST
-        this.app.post('/api', (req, res) => {
-            res.json({
-                msg: 'POST API'
-            });
-        });
-        //PUT
-        this.app.put('/api', (req, res) => {
-            res.json({
-                msg: 'PUT API'
-            });
-        });
-        //DELETE
-        this.app.delete('/api', (req, res) => {
-            res.json({
-                msg: 'DELETE API'
-            });
-        });
+        //cargar el modulo de direccionador
+        this.app.use( this.usuariosPath, require('../routes/usuarios') );
     }
 
     //Listen
