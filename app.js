@@ -1,19 +1,11 @@
-//express
-const express = require('express');
+//importar la clase Server
+const Server = require('./models/server');
+
 //dotenv
 require('dotenv').config();
-//constante de express
-const app = express();
-//puerto
-//en caso de no estar definido PORT entonces usar el puerto
-const port = process.env.PORT || 3000;
 
-//ruta
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-})
+//crear una instacia de la clase Server()
+const server = new Server;
+// llamamos el metodo por el cual escucha nuestra aplicacion
+server.listen();
 
-//listen al puerto
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
-});
