@@ -3,8 +3,14 @@ const { response } = require("express");
 
 //GET
 const usuariosGet = (req, res = response) => {
+
+    //query params
+    const { token, apikey } = req.query;
+
     res.json({
-        msg: 'GET API - Controller'
+        msg: 'GET API - Controller',
+        token,
+        apikey
     });
 }
 //POST
@@ -21,8 +27,13 @@ const usuariosPost = (req, res = response) => {
 }
 //PUT
 const usuariosPut = (req, res = response) => {
+
+    //id desde la URL
+    const { id } = req.params;
+
     res.json({
-        msg: 'PUT API - Controller'
+        msg: 'PUT API - Controller',
+        id
     });
 }
 //DELETE
