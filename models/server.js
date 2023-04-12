@@ -2,6 +2,8 @@
 const express = require('express');
 //cors
 const cors = require('cors');
+//importamos la conexion a la BD
+const { dbConnection } = require('../database/config');
 
 // clase Server
 class Server {
@@ -15,12 +17,19 @@ class Server {
         //ruta principal de la API
         this.usuariosPath = '/api/usuarios';
 
-
+        //conectar a la base de datos
+        this.conectarDB();
         //middlewares
         this.middlewares();
         //Routes
         this.routes();
     }
+    //conexion a la base de datos, con metodo asincrono
+    async conectarDB() {
+        //llamamos la conexion con el await, ya que debemos esperar a que se ejecute la conexion
+        await dbConnection();
+    }
+
     //middlewares
     middlewares() {
         //cors
