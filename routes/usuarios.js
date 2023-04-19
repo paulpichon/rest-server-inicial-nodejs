@@ -3,6 +3,8 @@
 const { Router } = require('express');
 //importar constantes
 const { usuariosGet, usuariosPost, usuariosPut, usuariosDelete } = require('../controllers/usuarios');
+//validar correo
+const { check } = require('express-validator');
 //creamos constante router para asignarle la funcion Router de express
 const router = Router();
 
@@ -10,7 +12,10 @@ const router = Router();
 //GET
 router.get('/', usuariosGet);
 //POST
-router.post('/', usuariosPost);
+router.post('/', [
+    //validar correo
+    check('correo', ' El correo no es válido').isEmail(),
+], usuariosPost);
 //PUT
 router.put('/:id', usuariosPut);
 //DELETE

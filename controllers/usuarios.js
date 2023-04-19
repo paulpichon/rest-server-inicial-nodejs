@@ -1,10 +1,13 @@
 //importamos reponse de express para ayudarnos con el tipado
 const { response, request } = require("express");
+//validar correo
+const { validationResult } = require("express-validator");
 //encriptar la contraseña
 const bcryptjs = require('bcryptjs');
 //importamos nuestro Schema Usuario 
 //ponemos la U mayuscula de Usuario porque es un estandar que me va a permitir crear instancias de mi modelo
 const Usuario = require('../models/usuario');
+
 
 //GET
 const usuariosGet = (req = request, res = response) => {
@@ -21,6 +24,14 @@ const usuariosGet = (req = request, res = response) => {
 //POST
 const usuariosPost = async(req, res = response) => {
 
+    //constante para los errores
+    const errors = validationResult( req );
+    //si hay errores
+    if ( !errors.isEmpty() ) {
+        //retornamos los errores encontrados
+        return res.status( 400 ).json( errors );
+    }
+
     //body
     const { nombre, correo, password, rol } = req.body;
     //creamos una nuesva instancia de Usuario
@@ -29,7 +40,15 @@ const usuariosPost = async(req, res = response) => {
     const usuario = new Usuario({ nombre, correo, password, rol });
 
     //verificar si el correo existe
-    
+    const existeEmail = await Usuario.findOne({ correo });
+    //si existe el correo
+    if ( existeEmail ) {
+        //detener la ejecucion con un return y un mensaje
+        return res.status(400). json({
+            msg: 'El correo ya existe'
+        });
+    }
+
     //encriptar la contraseña
     //por defecto esta en 10 = genSaltSync(10) = genSaltSync()
     //salt
