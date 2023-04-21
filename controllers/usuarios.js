@@ -1,7 +1,5 @@
 //importamos reponse de express para ayudarnos con el tipado
 const { response, request } = require("express");
-//validar correo
-const { validationResult } = require("express-validator");
 //encriptar la contraseña
 const bcryptjs = require('bcryptjs');
 //importamos nuestro Schema Usuario 
@@ -23,14 +21,6 @@ const usuariosGet = (req = request, res = response) => {
 }
 //POST
 const usuariosPost = async(req, res = response) => {
-
-    //constante para los errores
-    const errors = validationResult( req );
-    //si hay errores
-    if ( !errors.isEmpty() ) {
-        //retornamos los errores encontrados
-        return res.status( 400 ).json( errors );
-    }
 
     //body
     const { nombre, correo, password, rol } = req.body;
