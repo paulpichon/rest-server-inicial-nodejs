@@ -1,4 +1,3 @@
-//actualizacion
 //importamos reponse de express para ayudarnos con el tipado
 const { response, request } = require("express");
 //encriptar la contraseña
