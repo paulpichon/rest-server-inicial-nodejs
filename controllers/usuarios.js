@@ -35,7 +35,7 @@ const usuariosPost = async(req, res = response) => {
     if ( existeEmail ) {
         //detener la ejecucion con un return y un mensaje
         return res.status(400). json({
-            msg: 'El correo ya existe'
+            msg: 'El correo ya esta registrado en la base de datos'
         });
     }
 

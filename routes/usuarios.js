@@ -1,16 +1,25 @@
 //usuarios
 //configuracion de Router de Express
 const { Router } = require('express');
-//importar constantes
-const { usuariosGet, usuariosPost, usuariosPut, usuariosDelete } = require('../controllers/usuarios');
 //validar correo
 const { check } = require('express-validator');
+
+
 //importar validar campos
 const { validarCampos } = require('../middlewares/validar-campos');
-//Importamos el Rol
-const Rol = require('../models/rol');
+//inmportar la funcion esRolValido
+const esRolValido = require('../helpers/db-validators');
+
+//importar constantes
+const { usuariosGet, 
+        usuariosPost, 
+        usuariosPut, 
+        usuariosDelete } = require('../controllers/usuarios');
+
+
 //creamos constante router para asignarle la funcion Router de express
 const router = Router();
+
 
 //RUTAS
 //GET
@@ -31,16 +40,7 @@ router.post('/', [
 
     //en este custom nosotros podemos hacer una funcion para poder comprar el request vs la base de datos
     //A rol le podemos asignar un valor por defecto que seria un String vacio: rol = ''
-    check('rol').custom( async(rol = '') => {
-        //Se va a buscar con el Request alguna coincidencia vs la base de datos
-        const existeRol = await Rol.findOne( { rol })
-        //si existeRol no existe quiere decir que el ROL no existe en al base de datos
-        if (!existeRol) {
-            //y lanzamos un error personalizado con throw new Error
-            throw new Error(`El rol ${ rol } no esta registrado en la BD`);
-        }
-
-    }) ,
+    check('rol').custom( esRolValido ) ,
     //validar campos
     validarCampos
 ], usuariosPost);
