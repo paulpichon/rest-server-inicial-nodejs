@@ -8,7 +8,7 @@ const { check } = require('express-validator');
 //importar validar campos
 const { validarCampos } = require('../middlewares/validar-campos');
 //inmportar la funcion esRolValido
-const esRolValido = require('../helpers/db-validators');
+const {esRolValido, emailExiste} = require('../helpers/db-validators');
 
 //importar constantes
 const { usuariosGet, 
@@ -32,8 +32,10 @@ router.post('/', [
     check('nombre', 'El nombre es obligatorio').trim().notEmpty(),
     //password
     check('password', 'El password debe ser más de 6 caracteres').trim().isLength({ min: 6 }),
-    //validar correo
+    //validar correo si es valido
     check('correo', ' El correo no es válido').isEmail(),
+    //verificar si existe el correo en la BD
+    check('correo').custom( emailExiste ),
     //rol de usuario
     //esta es una forma de hacerlo, pero lo que necesitamos es compararlo contra la base de datos
     //check('rol', 'No es un rol valido').isIn(['ADMIN_ROLE', 'USER_ROLE']),

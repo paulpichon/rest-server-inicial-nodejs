@@ -29,16 +29,6 @@ const usuariosPost = async(req, res = response) => {
     //y mandamos como argumento el body
     const usuario = new Usuario({ nombre, correo, password, rol });
 
-    //verificar si el correo existe
-    const existeEmail = await Usuario.findOne({ correo });
-    //si existe el correo
-    if ( existeEmail ) {
-        //detener la ejecucion con un return y un mensaje
-        return res.status(400). json({
-            msg: 'El correo ya esta registrado en la base de datos'
-        });
-    }
-
     //encriptar la contraseña
     //por defecto esta en 10 = genSaltSync(10) = genSaltSync()
     //salt
