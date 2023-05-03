@@ -45,14 +45,23 @@ const usuariosPost = async(req, res = response) => {
     });
 }
 //PUT
-const usuariosPut = (req, res = response) => {
+const usuariosPut = async(req, res = response) => {
 
     //id desde la URL
     const { id } = req.params;
+    //desestructurar de la request.body
+    const { password, google, correo, ...resto } = req.body;
+    //validar contra la base de datos
+    if ( password ) {
+        const salt = bcryptjs.genSaltSync();
+        resto.password = bcryptjs.hashSync( password, salt);
+    }
+    //actualizar registro
+    //.findByIdAndUpdate('id del registro que se va actualizar', 'informacion a actualizar')
+    const usuario = await Usuario.findByIdAndUpdate( id, resto );
 
     res.json({
-        msg: 'PUT API - Controller',
-        id
+        usuario
     });
 }
 //DELETE

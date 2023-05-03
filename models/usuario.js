@@ -20,6 +20,10 @@ const UsuarioSchema = Schema({
     img: {
         type: String
     },
+    google: {
+        type: String,
+        default: false
+    },
     rol: {
         type: String,
         required: true,
