@@ -50,7 +50,8 @@ const usuariosPut = async(req, res = response) => {
     //id desde la URL
     const { id } = req.params;
     //desestructurar de la request.body
-    const { password, google, correo, ...resto } = req.body;
+    //tambien extraemos el _ID si es que viene
+    const { _id, password, google, correo, ...resto } = req.body;
     //validar contra la base de datos
     if ( password ) {
         const salt = bcryptjs.genSaltSync();

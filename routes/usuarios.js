@@ -8,7 +8,7 @@ const { check } = require('express-validator');
 //importar validar campos
 const { validarCampos } = require('../middlewares/validar-campos');
 //inmportar la funcion esRolValido
-const {esRolValido, emailExiste} = require('../helpers/db-validators');
+const {esRolValido, emailExiste, existeUsuarioPorId} = require('../helpers/db-validators');
 
 //importar constantes
 const { usuariosGet, 
@@ -47,7 +47,17 @@ router.post('/', [
     validarCampos
 ], usuariosPost);
 //PUT
-router.put('/:id', usuariosPut);
+router.put('/:id',[
+    //verificar si el ID es un ID valido de MONGO con express validator
+    check('id', 'No es un ID válido').isMongoId(),
+    //validar si existe el usuario por el ID
+    check('id').custom( existeUsuarioPorId ),
+    //validar el rol
+    //aunque en esta validacion significaria que el rol siempre me lo deben de mandar
+    check('rol').custom( esRolValido ),
+    //llamamos el metodo para validar campos y mostrar los errores
+    validarCampos
+], usuariosPut);
 //DELETE
 router.delete('/', usuariosDelete);
 
