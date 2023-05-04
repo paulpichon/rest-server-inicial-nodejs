@@ -59,7 +59,13 @@ const usuariosPut = async(req, res = response) => {
     }
     //actualizar registro
     //.findByIdAndUpdate('id del registro que se va actualizar', 'informacion a actualizar')
-    const usuario = await Usuario.findByIdAndUpdate( id, resto );
+    //con {new: true} actualizamos el modelo que retorna
+    //{ new: true }, es equivalente a returnOriginal: false
+    const usuario = await Usuario.findByIdAndUpdate( id, resto, {
+        // returnOriginal: false
+        //actualiza el modelo(retorna el modelo actualizado que vemos como consulta)
+        new: true
+    });
 
     res.json({
         usuario
