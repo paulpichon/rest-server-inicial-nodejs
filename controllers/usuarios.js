@@ -8,15 +8,24 @@ const Usuario = require('../models/usuario');
 
 
 //GET
-const usuariosGet = (req = request, res = response) => {
+const usuariosGet = async (req = request, res = response) => {
+    //desestructurar de los argumentos que vienen en el request body
+    //en caso que no venga un valor en limite por defecto sera de 5
+    //un segundo argumento que podemos mandar es el desde: es decir desde donde va a empezar los registros, lo ponemos por defecto como 0
+    const { limite = 5, desde = 0 } = req.query;
 
-    //query params
-    const { token, apikey } = req.query;
+    //GET de todos los usuarios
+    const usuarios  = await Usuario.find()
+        //.skip() nos muestra los registros desde donde nosotros lo mandemos
+        .skip( desde )
+        //paginar los resultados
+        //.limit("numero de resultados que nos mostrara"), en este caso lo pasamos como argumento pero debemos castearlo para que no marque error, lo casteamos con Number()
+        //ACTUALIZACION
+        //En versiones anteriores quiza era necesario castear el argumento si no era estrictamente un numero pero ahora no es necesario, Number( limite )
+        .limit( limite );
 
     res.json({
-        msg: 'GET API - Controller',
-        token,
-        apikey
+        usuarios
     });
 }
 //POST
@@ -39,10 +48,8 @@ const usuariosPost = async(req, res = response) => {
 
     //Grabar el registro en la coleccion
     await usuario.save();
-
-    res.json({
-        usuario
-    });
+    //se puede mandar solo el objeto sin llaves
+    res.json( usuario );
 }
 //PUT
 const usuariosPut = async(req, res = response) => {
@@ -67,9 +74,7 @@ const usuariosPut = async(req, res = response) => {
         new: true
     });
 
-    res.json({
-        usuario
-    });
+    res.json( usuario );
 }
 //DELETE
 const usuariosDelete = (req, res = response) => {

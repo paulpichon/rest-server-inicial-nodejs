@@ -16,10 +16,8 @@ const { usuariosGet,
         usuariosPut, 
         usuariosDelete } = require('../controllers/usuarios');
 
-
 //creamos constante router para asignarle la funcion Router de express
 const router = Router();
-
 
 //RUTAS
 //GET
