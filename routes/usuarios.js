@@ -57,7 +57,14 @@ router.put('/:id',[
     validarCampos
 ], usuariosPut);
 //DELETE
-router.delete('/', usuariosDelete);
+router.delete('/:id',[
+    //verificar si el ID es un ID valido de MONGO con express validator
+    check('id', 'No es un ID válido').isMongoId(),
+    //validar si existe el usuario por el ID
+    check('id').custom( existeUsuarioPorId ),
+    //llamamos el metodo para validar campos y mostrar los errores
+    validarCampos
+], usuariosDelete);
 
 //exportamos por default router
 module.exports = router;

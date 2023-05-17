@@ -91,10 +91,20 @@ const usuariosPut = async(req, res = response) => {
     res.json( usuario );
 }
 //DELETE
-const usuariosDelete = (req, res = response) => {
-    res.json({
-        msg: 'DELETE API - Controller'
+const usuariosDelete = async(req, res = response) => {
+
+    //desestructurar el ID
+    const { id } = req.params;
+
+    //borrar fisicamente
+    // const usuario = await Usuario.findByIdAndDelete( id );
+
+    //cambiar el estado del usuario
+    const usuario = await Usuario.findByIdAndUpdate( id, { estado: false }, {
+        new: true
     });
+
+    res.json( usuario );
 }
 //exports
 module.exports = {
