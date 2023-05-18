@@ -1,4 +1,3 @@
-//actualizado
 //validar correo
 const { validationResult } = require("express-validator");
 
