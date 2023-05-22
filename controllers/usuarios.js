@@ -14,18 +14,31 @@ const usuariosGet = async (req = request, res = response) => {
     //en caso que no venga un valor en limite por defecto sera de 5
     //un segundo argumento que podemos mandar es el desde: es decir desde donde va a empezar los registros, lo ponemos por defecto como 0
     const { limite = 5, desde = 0 } = req.query;
-
-    //GET de todos los usuarios
-    const usuarios  = await Usuario.find()
-        //.skip() nos muestra los registros desde donde nosotros lo mandemos
-        .skip( desde )
-        //paginar los resultados
-        //.limit("numero de resultados que nos mostrara"), en este caso lo pasamos como argumento pero debemos castearlo para que no marque error, lo casteamos con Number()
-        //ACTUALIZACION
-        //En versiones anteriores quiza era necesario castear el argumento si no era estrictamente un numero pero ahora no es necesario, Number( limite )
-        .limit( limite );
+    //esta constante nos ayudara a crear un parametro para el COUNT
+    const query = { estado : true };
+    
+    //con Promise.all() puedo mandar todas las promesas que quiero que se ejecuten al mismo tiempo
+    //hacemos una desestructuracion de arreglos
+    const [ total, usuarios ] = await Promise.all([
+        //obtener el total en numero de los registros en la BD
+        //agregamos la constante query en el .countDocuments() para que nos muestre solo los registros con el estado:true
+        // promesa para contar todos los registros con estado:true
+        Usuario.countDocuments( query ),
+        //Mostrar todos los registros con estado:true
+        //GET de todos los usuarios
+        //agregamos la constante query en el .find() para que nos muestre solo los registros con el estado:true
+        Usuario.find( query )
+            //.skip() nos muestra los registros desde donde nosotros lo mandemos
+            .skip( Number( desde ) )
+            //paginar los resultados
+            //.limit("numero de resultados que nos mostrara"), en este caso lo pasamos como argumento pero debemos castearlo para que no marque error, lo casteamos con Number()
+            //ACTUALIZACION
+            //En versiones anteriores quiza era necesario castear el argumento si no era estrictamente un numero pero ahora no es necesario, Number( limite )
+            .limit( Number( limite ) )
+    ]);
 
     res.json({
+        total,
         usuarios
     });
 }
@@ -78,10 +91,20 @@ const usuariosPut = async(req, res = response) => {
     res.json( usuario );
 }
 //DELETE
-const usuariosDelete = (req, res = response) => {
-    res.json({
-        msg: 'DELETE API - Controller'
+const usuariosDelete = async(req, res = response) => {
+
+    //desestructurar el ID
+    const { id } = req.params;
+
+    //borrar fisicamente
+    // const usuario = await Usuario.findByIdAndDelete( id );
+
+    //cambiar el estado del usuario
+    const usuario = await Usuario.findByIdAndUpdate( id, { estado: false }, {
+        new: true
     });
+
+    res.json( usuario );
 }
 //exports
 module.exports = {
