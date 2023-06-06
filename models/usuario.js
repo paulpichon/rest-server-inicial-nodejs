@@ -1,4 +1,4 @@
-//necesitamos extraer el Schema y el model de mongoose
+//necesitamos extraer el Schema y el model de mongoose 
 const { Schema, model } = require('mongoose');
 
 //creamos una constante con un objeto literal
