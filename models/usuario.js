@@ -1,6 +1,7 @@
 //necesitamos extraer el Schema y el model de mongoose 
 const { Schema, model } = require('mongoose');
 
+//Schema
 //creamos una constante con un objeto literal
 const UsuarioSchema = Schema({
     nombre: {
