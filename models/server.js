@@ -17,6 +17,8 @@ class Server {
         this.port = process.env.PORT || 3000;
         //ruta principal de la API
         this.usuariosPath = '/api/usuarios';
+        //ruta de la autenticacion
+        this.authPath = '/api/auth';
 
         //conectar a la base de datos
         this.conectarDB();
@@ -45,6 +47,8 @@ class Server {
     
     //rutas
     routes() {
+        //ruta de la autenticacion
+        this.app.use( this.authPath, require('../routes/auth') );
         //cargar el modulo de direccionador
         this.app.use( this.usuariosPath, require('../routes/usuarios') );
     }
