@@ -1,4 +1,4 @@
-//funcion para el AUTH
+//funcion para el AUTH actualizado
 const { response } = require("express");
 // bcryptjs
 const bcryptjs = require('bcryptjs');
