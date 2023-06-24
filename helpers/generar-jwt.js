@@ -1,3 +1,4 @@
+//actualizacion
 // funcion para generar JWT
 // importar jsonwebtoken
 const jwt = require('jsonwebtoken');
