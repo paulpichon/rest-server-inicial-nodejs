@@ -43,7 +43,9 @@ UsuarioSchema.methods.toJSON = function() {
     //desestructurar algo que viene this.toObject(), esto va agenerar una instancia con sus valores respectivos, como si fuera un objeto literal de JS
     //esto hara que __v y password no se muestren en el arreglo
     //mientras que el resto de las propiedades iran en ...usuario
-    const { __v, password, ...usuario } = this.toObject();
+    const { __v, password, _id, ...usuario } = this.toObject();
+    //renombramos el _id por uid
+    usuario.uid = _id;
     //y por ultimo retornamos el usuario(...usuario)
     return usuario;
 }
