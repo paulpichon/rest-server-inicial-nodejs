@@ -2,6 +2,8 @@
 const { Router } = require('express');
 //validaciones
 const { check } = require('express-validator');
+
+
 //validar campos
 const { validarCampos } = require('../middlewares/validar-campos');
 

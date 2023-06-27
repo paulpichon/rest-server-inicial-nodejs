@@ -7,6 +7,9 @@ const { check } = require('express-validator');
 
 //importar validar campos
 const { validarCampos } = require('../middlewares/validar-campos');
+// validar el JWT
+const { validarJWT } = require('../middlewares/validar-jwt');
+
 //inmportar la funcion esRolValido
 const {esRolValido, emailExiste, existeUsuarioPorId} = require('../helpers/db-validators');
 
@@ -15,6 +18,7 @@ const { usuariosGet,
         usuariosPost, 
         usuariosPut, 
         usuariosDelete } = require('../controllers/usuarios');
+
 
 //creamos constante router para asignarle la funcion Router de express
 const router = Router();
@@ -58,6 +62,8 @@ router.put('/:id',[
 ], usuariosPut);
 //DELETE
 router.delete('/:id',[
+    // validar el JWT
+    validarJWT,
     //verificar si el ID es un ID valido de MONGO con express validator
     check('id', 'No es un ID válido').isMongoId(),
     //validar si existe el usuario por el ID
