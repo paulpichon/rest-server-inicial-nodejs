@@ -8,7 +8,7 @@ const dbConnection = async() => {
 
         //https://mongoosejs.com/docs/connections.html
         //conexion a mongoose con await para esperar que la conexion se haga, si esto falla sera atrapado por el catch, necesitamos el URL de la conexion que esta en el archivo .env
-        await mongoose.connect( process.env.MONGODB_CNN );
+        await mongoose.connect( process.env.MONGODB_CONN );
 
         console.log("base de datos online");
 

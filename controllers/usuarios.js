@@ -95,9 +95,6 @@ const usuariosDelete = async(req, res = response) => {
     //desestructurar el ID
     const { id } = req.params;
 
-    // extraer el UID de la request.uid
-    const uid = req.uid;
-
     //borrar fisicamente
     // const usuario = await Usuario.findByIdAndDelete( id );
 
@@ -106,7 +103,10 @@ const usuariosDelete = async(req, res = response) => {
         new: true
     });
 
-    res.json( {usuario, uid });
+    //informacion sobre usuario autenticado quien esta tratando de eliminar algo
+    //const usuarioAutenticado = req.usuario;
+
+    res.json(usuario );
 }
 //exports
 module.exports = {
