@@ -9,6 +9,8 @@ const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 // validar el JWT
 const { validarJWT } = require('../middlewares/validar-jwt');
+//importar funcion para validar el ROL del usuario autenticado
+const { esAdminRole } = require('../middlewares/validar-roles');
 
 //inmportar la funcion esRolValido
 const {esRolValido, emailExiste, existeUsuarioPorId} = require('../helpers/db-validators');
@@ -18,6 +20,7 @@ const { usuariosGet,
         usuariosPost, 
         usuariosPut, 
         usuariosDelete } = require('../controllers/usuarios');
+
 
 
 //creamos constante router para asignarle la funcion Router de express
@@ -64,6 +67,8 @@ router.put('/:id',[
 router.delete('/:id',[
     // validar el JWT
     validarJWT,
+    //este middleware debe  ir despues de validar el JWT para que se pueda generar el JWT y asi poder crear en el request el usuario y poder validar el ROLE
+    esAdminRole,
     //verificar si el ID es un ID valido de MONGO con express validator
     check('id', 'No es un ID válido').isMongoId(),
     //validar si existe el usuario por el ID
