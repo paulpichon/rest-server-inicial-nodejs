@@ -10,7 +10,7 @@ const { validarCampos } = require('../middlewares/validar-campos');
 // validar el JWT
 const { validarJWT } = require('../middlewares/validar-jwt');
 //importar funcion para validar el ROL del usuario autenticado
-const { esAdminRole } = require('../middlewares/validar-roles');
+const { esAdminRole, tieneRole } = require('../middlewares/validar-roles');
 
 //inmportar la funcion esRolValido
 const {esRolValido, emailExiste, existeUsuarioPorId} = require('../helpers/db-validators');
@@ -20,6 +20,7 @@ const { usuariosGet,
         usuariosPost, 
         usuariosPut, 
         usuariosDelete } = require('../controllers/usuarios');
+
 
 
 
@@ -68,7 +69,11 @@ router.delete('/:id',[
     // validar el JWT
     validarJWT,
     //este middleware debe  ir despues de validar el JWT para que se pueda generar el JWT y asi poder crear en el request el usuario y poder validar el ROLE
-    esAdminRole,
+    // este rol fuerza a que el ROL tenga que ser si o si ADMIN_ROLE
+    // esAdminRole,
+
+    //creamos un middleware para ser un poco mas flexibles a la hora de definir los roles permitidos para borrar un registro
+    tieneRole('ADMIN_ROLE', 'VENTAS_ROLE'),
     //verificar si el ID es un ID valido de MONGO con express validator
     check('id', 'No es un ID válido').isMongoId(),
     //validar si existe el usuario por el ID
