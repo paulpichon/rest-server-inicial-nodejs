@@ -50,10 +50,6 @@ const tieneRole = ( ...roles ) => {
                 msg: `El servicio require uno de estos roles ${ roles }`
             });
         }
-        console.log( roles, req.usuario.rol );
-        
-        
-        
         // pasar al siguiente middleware
         next();
     }
