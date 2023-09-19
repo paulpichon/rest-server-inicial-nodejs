@@ -4,10 +4,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso Denegado</title>
+    <title>GOOGLE SIGN-IN</title>
 </head>
 <body>
     <h1>Acceso Denegado</h1>
     <hr>
+
+    <!-- Boton Google Sign-In -->
+    <div id="g_id_onload"
+        data-client_id="177281786430-37t7ruoe2r3b07ai9prfj3t3hfflmgsj.apps.googleusercontent.com"
+        data-auto_prompt="false"
+        data-callback="handleCredentialResponse">
+    </div>
+    <div class="g_id_signin"
+        data-type="standard"
+        data-size="large"
+        data-theme="outline"
+        data-text="sign_in_with"
+        data-shape="rectangular"
+        data-logo_alignment="left">
+    </div>
+
+    <!-- google signin -->
+    <script src="https://accounts.google.com/gsi/client" async></script>
+
+    <script>
+        // Sirve solo con funcion normal, si se cambia a funcion de llave no funcionaria
+        function handleCredentialResponse(response) {
+            // Google TOKEN
+            console.log( 'id_token', response.credential );
+        }
+      </script>
+
 </body>
 </html>
