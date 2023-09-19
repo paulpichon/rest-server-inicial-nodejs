@@ -4,22 +4,26 @@ const { Router } = require('express');
 //validar correo
 const { check } = require('express-validator');
 
-
-//importar validar campos
-const { validarCampos } = require('../middlewares/validar-campos');
-// validar el JWT
-const { validarJWT } = require('../middlewares/validar-jwt');
-//importar funcion para validar el ROL del usuario autenticado
-const { esAdminRole, tieneRole } = require('../middlewares/validar-roles');
+//importar los middlewares
+//ya no se ponde el nombre del archivo INDEX.JS ya que por defecto la carpeta middlewares detecta el archivo index
+const { validarCampos, 
+        validarJWT, 
+        esAdminRole, 
+        tieneRole
+} = require('../middlewares');
 
 //inmportar la funcion esRolValido
-const {esRolValido, emailExiste, existeUsuarioPorId} = require('../helpers/db-validators');
+const { esRolValido, 
+        emailExiste, 
+        existeUsuarioPorId
+} = require('../helpers/db-validators');
 
 //importar constantes
 const { usuariosGet, 
         usuariosPost, 
         usuariosPut, 
-        usuariosDelete } = require('../controllers/usuarios');
+        usuariosDelete 
+} = require('../controllers/usuarios');
 
 
 
