@@ -63,7 +63,23 @@ const login = async( req, res = response ) => {
     }
 
 }
+
+// Google Sign In/ Authentication
+const googleSignIn = async( req, res) => {
+    
+    // id_token debe de venir en el body
+    const { id_token } = req.body;
+
+
+    // respuesta
+    res.json({
+        msg: 'Todo bien',
+        id_token
+    });
+}
+
 //exports
 module.exports = {
-    login
+    login,
+    googleSignIn
 }
