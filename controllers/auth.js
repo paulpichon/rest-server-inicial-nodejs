@@ -6,6 +6,8 @@ const bcryptjs = require('bcryptjs');
 const Usuario = require('../models/usuario');
 // Funcion para generar el JWT
 const { generarJWT } = require("../helpers/generar-jwt");
+// Google Verify
+const { googleVerify } = require("../helpers/google-verify");
 
 const login = async( req, res = response ) => {
 
@@ -70,12 +72,24 @@ const googleSignIn = async( req, res) => {
     // id_token debe de venir en el body
     const { id_token } = req.body;
 
+    try {
+        
+        // const googleUser = await googleVerify( id_token );
+        const { nombre, img, correo } = await googleVerify( id_token );
+        // console.log( googleUser );
+        // respuesta
+        res.json({
+            msg: 'Todo bien',
+            id_token
+        });
 
-    // respuesta
-    res.json({
-        msg: 'Todo bien',
-        id_token
-    });
+    } catch (error) {
+        console.log( error );
+        res.status(400).json({
+            ok: false,
+            msg: 'El token no se pudo verificar'
+        });
+    }
 }
 
 //exports
