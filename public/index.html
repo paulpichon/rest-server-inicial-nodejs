@@ -25,6 +25,12 @@
         data-logo_alignment="left">
     </div>
 
+    <!-- Botton para cerrar sesion -->
+    <button id="google_signout">
+        SignOut
+    </button>
+
+
     <!-- google signin -->
     <script src="https://accounts.google.com/gsi/client" async></script>
 
@@ -49,11 +55,33 @@
                 .then( resp => resp.json() )
                     .then( resp => {
                         console.log( resp );
+                        // despues de hacer la autenticacion con GOOGLE, podemos guardarlo en el localstorage
+                        localStorage.setItem( 'email', resp.usuario.correo );
                     })
                     .catch( console.warn )
 
 
         }
+
+
+        // Creacion de funcion para cerrar sesion
+        const button = document.querySelector('#google_signout');
+        // agregar un evento al boton
+        button.onclick = () => {
+            
+            console.log( google.accounts.id );
+            // desactivar google identity
+            google.accounts.id.disableAutoSelect();
+
+            google.accounts.id.revoke( localStorage.getItem( 'email'), done => {
+                // limpiar el localstorage
+                localStorage.clear();
+                // recargar la pagina
+                location.reload();
+            });
+
+        }
+
       </script>
 
 </body>
